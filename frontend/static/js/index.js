@@ -5,6 +5,14 @@ const navigateTo = url => {
     router();
 };
 
+const initilizeRoutes = () => {
+    document.body.addEventListener("click", e => {
+        if (e.target.matches("[data-link]")) {
+            e.preventDefault();
+            navigateTo(e.target.href);
+        }
+    });
+}
 const router = async () => {
 
     // check which route got matched
@@ -25,16 +33,17 @@ const router = async () => {
     }
     const view = new matchedRoute.route.view();
     document.querySelector("#app").innerHTML = await view.render();
+    initilizeRoutes();
 }
 
 window.addEventListener("popstate", router);
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.body.addEventListener("click", e => {
-        if (e.target.matches("[data-link]")) {
-            e.preventDefault();
-            navigateTo(e.target.href);
-        }
-    });
+    // document.body.addEventListener("click", e => {
+    //     if (e.target.matches("[data-link]")) {
+    //         e.preventDefault();
+    //         navigateTo(e.target.href);
+    //     }
+    // });
     router();
 })
